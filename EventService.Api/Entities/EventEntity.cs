@@ -23,11 +23,8 @@ public class EventEntity
     public EventStatus Status { get; set; }
 
     [Required]
-    [Column(TypeName = "date")]
-    public DateTime Date {  get; set; }
-
-    [Column(TypeName = "time")]
-    public DateTime? StartTime { get; set; }
+    [Column(TypeName = "datetime2")]
+    public DateTime Start {  get; set; }
 
     [MaxLength(100)]
     public string? Location { get; set; }
