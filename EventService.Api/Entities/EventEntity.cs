@@ -30,6 +30,7 @@ public class EventEntity
     public string? Location { get; set; }
 
     [Required]
+    [Range(0.01, 100000)]
     [Column(TypeName = "decimal(10,2)")]
     public decimal StartingPrice { get; set; }
 
