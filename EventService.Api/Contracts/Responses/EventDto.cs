@@ -14,8 +14,8 @@ public class EventDto
     public string? Location { get; set; }
     public decimal StartingPrice { get; set; }
 
-    public DateOnly Date => DateOnly.FromDateTime(Start);
-    public TimeOnly Time => TimeOnly.FromDateTime(Start);
+    public DateOnly Date { get; set; }
+    public TimeOnly Time { get; set; } = new TimeOnly(0, 0);
     public DateTime Start { get; set; }
 
     public List<TicketPackageDto> TicketPackages { get; set; } = [];

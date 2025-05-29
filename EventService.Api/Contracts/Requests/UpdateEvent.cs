@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventService.Api.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventService.Api.Contracts.Requests;
 
@@ -17,5 +18,5 @@ public class UpdateEvent
 
     [Range(0.01, 100000)]
     public decimal? StartingPrice { get; set; }
-    public string? Status { get; set; }
+    public EventStatus? Status { get; set; }
 }
