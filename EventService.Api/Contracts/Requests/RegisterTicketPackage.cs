@@ -12,7 +12,7 @@ public class RegisterTicketPackage
     public string Name { get; set; } = null!;
 
     [MaxLength(1000)]
-    public string? Description { get; set; }
+    public string? Description { get; set; } = string.Empty;
 
     [Required]
     [Range(0.01, 100000)]

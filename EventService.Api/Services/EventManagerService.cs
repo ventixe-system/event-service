@@ -38,6 +38,7 @@ public class EventManagerService : IEventManagerService
     {
         var newEvent = EventFactory.Create(request);
         await _context.Events.AddAsync(newEvent);
+        await _context.SaveChangesAsync();
         return newEvent;
     }
 
