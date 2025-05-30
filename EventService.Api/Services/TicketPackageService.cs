@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventService.Api.Services;
 
-public class TicketPackagesService : ITicketPackageService
+public class TicketPackageService : ITicketPackageService
 {
     private readonly EventDbContext _context;
-    public TicketPackagesService(EventDbContext context)
+    public TicketPackageService(EventDbContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
@@ -31,16 +31,20 @@ public class TicketPackagesService : ITicketPackageService
 
         return entity?.ToDto();
     }
-    public async Task<TicketPackagesEntity> CreateAsync(RegisterTicketPackage request, Guid eventId)
+    public async Task<TicketPackageDto> CreateAsync(RegisterTicketPackage request, Guid eventId)
     {
         var newPackage = TicketPackageFactory.Create(request, eventId);
         await _context.TicketPackages.AddAsync(newPackage);
         await _context.SaveChangesAsync();
-        return newPackage;
+
+        return newPackage.ToDto();
     }
-    public async Task<bool> UpdateAsync(int id, UpdateTicketPackage request)
+    public async Task<bool> UpdateAsync(Guid eventId, int id, UpdateTicketPackage request)
     {
-        var existing = await _context.TicketPackages.FindAsync(id);
+        var existing = await _context.TicketPackages
+            .Where(tp => tp.Id == id && tp.EventId == eventId)
+            .FirstOrDefaultAsync();
+
         if (existing == null)
         {
             return false;
@@ -50,9 +54,13 @@ public class TicketPackagesService : ITicketPackageService
         _context.TicketPackages.Update(existing);
         return await _context.SaveChangesAsync() > 0;
     }
-    public async Task<bool> DeleteAsync(int id)
+
+    public async Task<bool> DeleteAsync(Guid eventId, int id)
     {
-        var entity = await _context.TicketPackages.FindAsync(id);
+        var entity = await _context.TicketPackages
+            .Where(tp => tp.Id == id && tp.EventId == eventId)
+            .FirstOrDefaultAsync();
+
         if (entity == null)
         {
             return false;
@@ -62,9 +70,12 @@ public class TicketPackagesService : ITicketPackageService
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> SellTicketsAsync(int packageId, int quantity)
+    public async Task<bool> SellTicketsAsync(Guid EventId, int packageId, int quantity)
     {
-        var package = await _context.TicketPackages.FindAsync(packageId);
+        var package = await _context.TicketPackages
+            .Where(tp => tp.Id == packageId && tp.EventId == EventId)
+            .FirstOrDefaultAsync();
+
         if (package == null || package.SoldQuantity + quantity > package.TotalQuantity)
         {
             return false; // Not enough tickets available

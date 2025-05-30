@@ -8,7 +8,8 @@ public interface IEventManagerService
 {
     Task<List<EventDto>> GetAllEventsAsync();
     Task<EventDto?> GetEventsByIdAsync(Guid id);
-    Task<EventEntity> CreateAsync(RegisterEvent request);
+    Task<List<EventDto>>GetEventsByStatusAsync(EventStatus status);
+    Task<EventDto> CreateAsync(RegisterEvent request);
     Task<bool> SaveChangesAsync();
     Task<bool> UpdateAsync(Guid id, UpdateEvent model);
     Task<bool> DeleteAsync(Guid id);

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IEventManagerService, EventManagerService>();
-builder.Services.AddScoped<ITicketPackageService, TicketPackagesService>();
+builder.Services.AddScoped<ITicketPackageService, TicketPackageService>();
 
 builder.Services.AddDbContext<EventDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
