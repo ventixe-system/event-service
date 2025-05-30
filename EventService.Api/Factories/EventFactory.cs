@@ -19,8 +19,7 @@ public static class EventFactory
             Status = EventStatus.Draft, // Default status on creation
             Start = request.Date.ToDateTime(request.Time), //Combine Date and Time into a DateTime
             Location = request.Location,
-            StartingPrice = request.StartingPrice,
-
+            StartingPrice = request.StartingPrice
         };
     }
 

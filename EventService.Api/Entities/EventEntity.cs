@@ -17,9 +17,11 @@ public class EventEntity
 
     public int CategoryId { get; set; } //From CategoryService
 
+    [MaxLength(2048)]
     public string? ImageUrl { get; set; }
 
     [Required]
+    [EnumDataType(typeof(EventStatus))]
     public EventStatus Status { get; set; }
 
     [Required]

@@ -44,15 +44,24 @@ public class EventsController(IEventManagerService eventManagerService, ITicketP
     [HttpPost]
     public async Task<ActionResult<EventDto>> CreateEvent([FromBody] RegisterEvent request)
     {
-        if (request == null)
+        if (request == null || !ModelState.IsValid)
         {
-            return BadRequest("Invalid event data.");
+            return BadRequest(ModelState);
         }
 
-        var createdEvent = await _eventManagerService.CreateAsync(request);
-        var saved = await _eventManagerService.SaveChangesAsync();
+        try
+        {
 
-        return saved ? CreatedAtAction(nameof(GetEventById), new { id = createdEvent.Id }, createdEvent) : BadRequest();
+            var createdEvent = await _eventManagerService.CreateAsync(request);
+
+            return CreatedAtAction(nameof(GetEventById), new { id = createdEvent.Id }, createdEvent);
+        }
+
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return Problem("An error occurred while creating the event.", statusCode: 500);
+        }
     }
 
     [HttpPut("{id:guid}")]
@@ -83,8 +92,10 @@ public class EventsController(IEventManagerService eventManagerService, ITicketP
     {
         var addedPackage = await _ticketPackageService.CreateAsync(request, eventId);
 
-        if (addedPackage == null)
-            return BadRequest("Could not create ticket package.");
+        if(request == null || !ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
         return Ok(addedPackage);
     }
@@ -104,7 +115,7 @@ public class EventsController(IEventManagerService eventManagerService, ITicketP
     [HttpDelete("{eventId:guid}/ticketpackages/{packageId:int}")]
     public async Task<IActionResult> DeleteTicketPackage(Guid eventId, int packageId)
     {
-        var deleted = await _ticketPackageService.DeleteAsync(packageId);
+        var deleted = await _ticketPackageService.DeleteAsync(eventId, packageId);
         return deleted ? NoContent() : NotFound();
     }
 

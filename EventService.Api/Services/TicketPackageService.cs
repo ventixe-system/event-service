@@ -1,7 +1,6 @@
 ﻿using EventService.Api.Contracts.Requests;
 using EventService.Api.Contracts.Responses;
 using EventService.Api.Data.Context;
-using EventService.Api.Entities;
 using EventService.Api.Factories;
 using EventService.Api.Mappings;
 using Microsoft.EntityFrameworkCore;

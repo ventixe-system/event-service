@@ -10,6 +10,6 @@ public interface ITicketPackageService
     Task<TicketPackageDto?> GetTicketPackageByIdAsync(int id);
     Task<TicketPackageDto> CreateAsync(RegisterTicketPackage request, Guid eventId);
     Task<bool> UpdateAsync(Guid EventId, int id, UpdateTicketPackage request);
-    Task<bool> DeleteAsync(int id);
+    Task<bool> DeleteAsync(Guid EventId, int id);
     Task<bool> SellTicketsAsync(Guid EventId, int packageId, int quantity);
 }

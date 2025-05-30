@@ -13,8 +13,8 @@ public class RegisterEvent
 
     public string? ImageUrl { get; set; }
 
-    [Required]
-    public int CategoryId { get; set; } // From CategoryService
+    public int CategoryId { get; set; }// From CategoryService
+
     [Required]
     public DateOnly Date { get; set; }
     public TimeOnly Time { get; set; } = new TimeOnly(0, 0);

@@ -14,6 +14,10 @@ builder.Services.AddDbContext<EventDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+
+//REMOVE THIS LINE IN PRODUCTION
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 var app = builder.Build();
 app.MapOpenApi();
 app.UseHttpsRedirection();
@@ -25,6 +29,11 @@ app.UseCors(policy =>
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 
 app.MapControllers();
 
