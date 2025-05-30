@@ -19,6 +19,7 @@ public static class EventMapping
             Location = entity.Location,
             StartingPrice = entity.StartingPrice,
             Status = entity.Status.ToString(),
+            TicketPackages =entity.TicketPackages.Select(tp => tp.ToDto()).ToList()
         };
     }
 }
