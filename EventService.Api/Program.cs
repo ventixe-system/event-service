@@ -23,6 +23,14 @@ builder.Services.AddControllers()
             new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, allowIntegerValues: false));
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
 
 //REMOVE THIS LINE IN PRODUCTION
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -30,11 +38,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
 app.MapOpenApi();
 app.UseHttpsRedirection();
-app.UseCors(policy => 
-    policy.AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyOrigin()
-);
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -45,5 +49,4 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
 app.Run();
