@@ -12,6 +12,12 @@ builder.Services.AddScoped<ITicketPackageService, TicketPackageService>();
 builder.Services.AddDbContext<EventDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddHttpClient("CategoryService", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7028/");
+});
+
+
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -30,10 +36,6 @@ builder.Services.AddCors(options =>
                           .AllowAnyMethod()
                           .AllowAnyHeader());
 });
-
-
-//REMOVE THIS LINE IN PRODUCTION
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
 app.MapOpenApi();

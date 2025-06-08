@@ -5,16 +5,19 @@ using EventService.Api.Entities;
 using EventService.Api.Factories;
 using EventService.Api.Mappings;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 
 namespace EventService.Api.Services;
 
 public class EventManagerService : IEventManagerService
 {
     private readonly EventDbContext _context;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public EventManagerService(EventDbContext context)
+    public EventManagerService(EventDbContext context, IHttpClientFactory httpClientFactory)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<List<EventDto>> GetAllEventsAsync()
@@ -45,6 +48,14 @@ public class EventManagerService : IEventManagerService
 
     public async Task<EventDto> CreateAsync(RegisterEvent request)
     {
+        var client = _httpClientFactory.CreateClient("CategoryService");
+        var response = await client.GetAsync($"/api/categories/{request.CategoryId}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException("Invalid category ID");
+        }
+
         var newEvent = EventFactory.Create(request);
         await _context.Events.AddAsync(newEvent);
         await _context.SaveChangesAsync();

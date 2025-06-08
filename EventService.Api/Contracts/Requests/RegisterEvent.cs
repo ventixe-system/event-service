@@ -11,7 +11,7 @@ public class RegisterEvent
     [Required]
     public string Description { get; set; } = null!;
 
-    public string? ImageUrl { get; set; }
+    public string? ImageUrl { get; set; } = string.Empty;
 
     public int CategoryId { get; set; }// From CategoryService
 

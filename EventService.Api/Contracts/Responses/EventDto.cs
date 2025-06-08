@@ -8,7 +8,6 @@ public class EventDto
     public string Title { get; set; } = null!;
     public string Description { get; set; } = null!;
     public int CategoryId { get; set; } // From CategoryService
-    public string? CategoryName { get; set; } = string.Empty; // From CategoryService
     public string? ImageUrl { get; set; }
     public string Status { get; set; } = EventStatus.Draft.ToString();
     public string? Location { get; set; }
