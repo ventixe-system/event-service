@@ -18,7 +18,6 @@ builder.Services.AddHttpClient("CategoryService", client =>
 });
 
 
-
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -45,10 +44,6 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
 
 app.MapControllers();
 app.Run();
