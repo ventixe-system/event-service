@@ -1,6 +1,7 @@
 using EventService.Api.Data.Context;
 using EventService.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Sockets;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,7 +15,9 @@ builder.Services.AddDbContext<EventDbContext>(options =>
 
 builder.Services.AddHttpClient("CategoryService", client =>
 {
-    client.BaseAddress = new Uri("https://category-service-app-g8bugcfhfadcb3dg.swedencentral-01.azurewebsites.net/");
+    var baseUrl = builder.Configuration["CategoryServiceBaseUrl"]
+              ?? throw new InvalidOperationException("CategoryServiceBaseUrl is not configured.");
+    client.BaseAddress = new Uri(baseUrl);
 });
 
 
