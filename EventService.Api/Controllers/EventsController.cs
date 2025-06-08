@@ -59,6 +59,7 @@ public class EventsController(IEventManagerService eventManagerService, ITicketP
 
         catch (Exception ex)
         {
+
             Console.WriteLine(ex.Message);
             return Problem("An error occurred while creating the event.", statusCode: 500);
         }

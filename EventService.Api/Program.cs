@@ -14,7 +14,7 @@ builder.Services.AddDbContext<EventDbContext>(options =>
 
 builder.Services.AddHttpClient("CategoryService", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7028/");
+    client.BaseAddress = new Uri("https://category-service-app-g8bugcfhfadcb3dg.swedencentral-01.azurewebsites.net/");
 });
 
 
@@ -40,7 +40,6 @@ var app = builder.Build();
 app.MapOpenApi();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
-
 
 app.MapControllers();
 app.Run();
